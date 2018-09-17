@@ -1,0 +1,56 @@
+Part 1. Individual.
+We are interested in building a language model over a language with three words: A, B, C. Our training corpus is
+
+'''AAABACBABBBCCACBCC'''
+ 
+1. First train a unigram language model using maximum likelihood estimation. What are the probabilities? (Just leave in the form of a fraction)? Reminder: We don't need start or end tokens for training a unigram model, since the context of each word doesn't matter. So, we will not add any special tokens to our corpus for this part of the problem. 
+P(A) = 1/3
+P(B) = 1/3
+P(C) = 1/3
+
+2. Next train a bigram language model using maximum likelihood estimation. For this problem, we will add an end token, $$, at the end of the string, so that we can model the probability of the sentence ending after a particular word. If you chose to add a start token as well, that's fine too, but these solutions assume no start token. Fill in the probabilities below. Leave your answers in the form of a fraction.
+Our training corpus is
+
+'''AAABACBABBBCCACBCC$'''
+
+P(A|A) = P(AA)/P(A) = 1/6
+P(A|B) = P(BA)/P(B) = 1/3
+P(A|C) = P(CA)/P(C) = 1/6
+P(B|A) = P(AB)/P(A) = 1/3
+P(B|B) = P(BB)/P(B) = 1/6
+P(B|C) = P(CB)/P(C) = 1/3
+P(C|A) = P(AC)/P(A) = 1/3
+P(C|B) = P(BC)/P(B) = 1/3
+P(C|C) = P(CC)/P(C) = 1/3
+P($|A) = 0
+P($|B) = 0
+P($|C) = P(C$)/P(C) = 1/6
+P(A|$) = 0
+P(B|$) = 0
+P(C|$) = 0
+
+3. Now evaluate your language models on the corpus
+
+'''ABACABB'''
+
+What is the perplexity of the unigram language model evaluated on this corpus? Since we didn't add any special start/end tokens when we were training our unigram language model, we won't add any when we evaluate the perplexity of the unigram language model, either, so that we're consistent. 
+
+The perplexity of the unigram language model is 3.
+
+What is the perplexity of the bigram language model evaluated on this corpus? Since we added an end token when we were training our bigram model, we'll add an end token to this corpus again before we evaluate perplexity. 
+ 
+
+4. Now repeat everything above for add-1 (Laplace) smoothing.
+
+ 
+
+
+Part 2: You may work in a group. Each person should hand in a separate copy and name your group partners.
+
+1. What is the difference between using an UNK token (for unknown words) and smoothing? Give an example where you would use one versus the other. 
+
+
+2. Suppose you build an interpolated trigram language model, with three weights lambda1 for unigrams, lambda2 for bigrams, and lambda3 for trigrams. Normally we set these lambdas on a held-out set. Suppose instead we set them on the training data. This will cause the lambdas to take on very unusual values. What will these lambdas look like? Why? 
+
+3. Show that if we estimate two bigram language models using unsmoothed relative frequencies (MLE), one from a text corpus and the second from the same corpus in reverse order, the models will assign the same probability to new sentences (when applied in forward and backward order respectively). Hint: First write out the entire equation for sentence probabilities in terms of counts. 
+
