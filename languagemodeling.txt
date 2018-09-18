@@ -38,6 +38,8 @@ What is the perplexity of the unigram language model evaluated on this corpus? S
 The perplexity of the unigram language model is 3.
 
 What is the perplexity of the bigram language model evaluated on this corpus? Since we added an end token when we were training our bigram model, we'll add an end token to this corpus again before we evaluate perplexity. 
+
+The perplexity can't be calculated if not using UNK token or smoothing, since there's zero probability for 'B$'. So the perplexity is infinite without dealing with unknown words.
  
 
 4. Now repeat everything above for add-1 (Laplace) smoothing.
