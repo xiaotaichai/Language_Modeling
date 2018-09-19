@@ -50,11 +50,25 @@ Part 2: You may work in a group. Each person should hand in a separate copy and 
 
 1. What is the difference between using an UNK token (for unknown words) and smoothing? Give an example where you would use one versus the other. 
 
-AWS: The add-1 smoothing isn't good for N-grams, especially when there are a large number of zeros. Add-1 smoothing can be used for text classification and in domains where the number of zeros isn't so huge.
+AWS: The UNK token replaces all unknown words by the UNK token, which classifies all unknown words as one type. The laplace smoothing adds one to all events in order to give non zero probability to unknown words. The add-1 smoothing isn't good for N-grams, especially when there are a large number of zeros. Add-1 smoothing can be used for text classification and in domains where the number of zeros isn't so huge. And UNK token can be used when there are a large number of unknown words in the test file.
 
 2. Suppose you build an interpolated trigram language model, with three weights lambda1 for unigrams, lambda2 for bigrams, and lambda3 for trigrams. Normally we set these lambdas on a held-out set. Suppose instead we set them on the training data. This will cause the lambdas to take on very unusual values. What will these lambdas look like? Why? 
 
-AWS:
+AWS: Lambda3 will always be 1 if we set them on the training data, because we always want the lambdas that give the largest probability to data set that they get trained on. If we use the same dataset to train model probability and lambdas, lambda3 = 1 would give the largest probability because the associated P(Wn) would be the largest.
+
+Let's say the training data is t.
+We need to minimize Ht(p’λ) over a vector λ, p’λ = λ3p3t + λ2p2t + λ1p1t.
+Ht(p’λ) = H(p3t) + D(p3t||p’λ); 
+p3t fixed -> H(p3t) fixed, best;
+A p’λ for which D(p3t||p’λ) = 0 minimizes Ht(p’λ), and that's p3t (because D(p||p) = 0), and p’λ = p3t if λ3 = 1.
+So p’λ = 1*p3t + 0*p2t + 1*p1t
+
 
 3. Show that if we estimate two bigram language models using unsmoothed relative frequencies (MLE), one from a text corpus and the second from the same corpus in reverse order, the models will assign the same probability to new sentences (when applied in forward and backward order respectively). Hint: First write out the entire equation for sentence probabilities in terms of counts. 
 
+AWS: Assume the sentence has n+1 words. Sentence = (w0, w1, w2, ..., wn).
+P(sentence) = P(w1 | w0) * P(w2 | w1) * ... * P(wn | wn-1)
+			= c(w0,w1)/c(w0) * c(w1,w2)/c(w1) *...* c(wn-1,wn)/c(wn-1)
+			= (c(w0,w1) * c(w1,w2) * ... * c(wn-1,wn)) / (c(w0) * c(w1) *...* c(wn-1))
+
+The denominator would be the same because the count of a single word would be the same regardless of the order of the training set. The counts of the nominator would also be the same if the sentence is also applied in backward order to the bigram model that gets train in the training set in reverse order.
