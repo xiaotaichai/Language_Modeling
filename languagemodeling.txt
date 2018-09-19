@@ -44,7 +44,7 @@ The perplexity can't be calculated if not using UNK token or smoothing, since th
 
 4. Now repeat everything above for add-1 (Laplace) smoothing.
  
-After add-1 smoothing, the perplexity of the unigram language model becomes , and the perplexity of bigram model becomes .
+After add-1 smoothing, the perplexity of the unigram language model is still the same, and the perplexity of bigram model becomes 5.788071779761857.
 
 Part 2: You may work in a group. Each person should hand in a separate copy and name your group partners.
 
